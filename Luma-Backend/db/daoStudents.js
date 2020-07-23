@@ -22,7 +22,7 @@ exports.getAll = function(next) {
 
 exports.getCourses = function(student_id, next) {
     db.query(
-        'SELECT * FROM courses, enroll WHERE student_id = ? AND courses.id = enroll.course_id;',
+        'SELECT c.id, c.name, c.description, c.teacher_id FROM courses c, enroll WHERE student_id = ? AND c.id = enroll.course_id;',
         [student_id],
         (err, results) => {
             next(err, results);

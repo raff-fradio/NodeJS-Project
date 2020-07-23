@@ -30,6 +30,26 @@ exports.getCourses = function(teacher_id, next) {
     );
 }
 
+exports.getEmail = function(email, next) {
+    db.query(
+        'SELECT * FROM teachers WHERE email = ?',
+        [email],
+        (err, results) => {
+            next(err, results);
+        }
+    )
+}
+
+exports.login = function(email, password, next) {
+    db.query(
+        'SELECT * FROM teachers WHERE email = ? AND password = ?',
+        [email, password],
+        (err, results) => {
+            next(err, results);
+        }
+    )
+}
+
 exports.create = function(email, name, password, next) {
     db.query(
         'INSERT INTO teachers (email, name, password) VALUES (?, ?, ?);',

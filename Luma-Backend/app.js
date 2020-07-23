@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 
 app.use('/students', students);
 app.use('/teachers', teachers);
-// app.use('/courses', courses);
+app.use('/courses', courses);
 
 app.listen(port, () => {
     console.log(`-- Now listening on port ${port} --`);

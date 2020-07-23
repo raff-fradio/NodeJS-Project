@@ -1,9 +1,9 @@
 const db = require('./daoMain');
 
-exports.getOne = function(username, next) {
+exports.getOne = function(id, next) {
     db.query(
-        'SELECT * FROM courses WHERE id = ?;',
-        [],
+        'SELECT c.id, c.name, c.description, teachers.name AS teacher_name FROM courses c, teachers WHERE c.id = ? AND teachers.id = c.teacher_id;',
+        [id],
         (err, results) => {
             next(err, results);
         }
@@ -12,7 +12,7 @@ exports.getOne = function(username, next) {
 
 exports.getAll = function(next) {
     db.query(
-        'SELECT * FROM courses;',
+        'SELECT c.id, c.name, c.description, teachers.name AS teacher_name FROM courses c, teachers WHERE teachers.id = c.teacher_id;',
         [],
         (err, results) => {
             next(err, results);

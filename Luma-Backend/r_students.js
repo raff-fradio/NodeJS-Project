@@ -31,7 +31,7 @@ router.get('/:id', (req, res) => {
             return res.status(404).json('Data not found.');
         }
         var result = results1[0];
-        console.log('Student data found. Fetching courses.');
+        console.log('Student data found. Fetching Courses.');
         students.getCourses(req.params.id, (err, results2) => {
             if (err) {
                 console.log(`Cancelled - ${err}`);
@@ -52,8 +52,9 @@ router.post('/', (req, res) => {
     console.log(`Proceeding with validation check.`);
     const {error} = validateUser(req.body);
     if (error) {
+        var errorMsg = error.details[0].message.replace(/"/g, '');
         console.log('Cancelled - Validation check failed.');
-        return res.status(400).json(error.details[0].message);
+        return res.status(400).json(errorMsg);
     }
     console.log(`Validation check passed. Checking existing Student data.`);
     students.getEmail(req.body.email, (err, results) => {
@@ -85,8 +86,9 @@ router.post('/login', (req, res) => {
     console.log(`Received login request for Student.`);
     const {error} = validateUser(req.body);
     if (error) {
+        var errorMsg = error.details[0].message.replace(/"/g, '');
         console.log('Cancelled - Validation check failed.');
-        return res.status(400).json(error.details[0].message);
+        return res.status(400).json(errorMsg);
     }
     console.log(`Validation check passed. Checking existing Student data.`);
     students.getEmail(req.body.email, (err, results) => {
@@ -109,8 +111,9 @@ router.post('/login', (req, res) => {
                 return res.status(404).json('Data does not match.');
     
             }
-            req.body.status = "Success";
-            res.json(req.body);
+            var result = results[0];
+            result.status = "Success";
+            res.json(result);
             console.log('Successfully completed login request.');
         });
     });
@@ -123,8 +126,9 @@ router.put('/:id', (req, res) => {
     console.log(`Proceeding with validation check.`);
     const {error} = validateUser(req.body);
     if (error) {
+        var errorMsg = error.details[0].message.replace(/"/g, '');
         console.log('Cancelled - Validation check failed.');
-        return res.status(400).json(error.details[0].message);
+        return res.status(400).json(errorMsg);
     }
     console.log(`Validation check passed. Checking existing Student data.`);
     students.getOne(req.params.id, (err, results) => {
@@ -179,7 +183,7 @@ router.delete('/:id', (req, res) => {
 
 function validateUser(user) {
     const schema = Joi.object({
-        name: Joi.string().required(),
+        name: Joi.string(),
         email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'id'] } }),
         password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).min(8).required()
     });

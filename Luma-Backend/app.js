@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/students', students);
-// app.use('/teachers', teachers);
+app.use('/teachers', teachers);
 // app.use('/courses', courses);
 
 app.listen(port, () => {

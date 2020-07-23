@@ -53,11 +53,7 @@ router.post('/', (req, res) => {
     const {error} = validateUser(req.body);
     if (error) {
         console.log('Cancelled - Validation check failed.');
-        var jsonRespond = {
-            result: "",
-            message: error.details[0].message
-        }
-        return res.status(400).json(jsonRespond);
+        return res.status(400).json(error.details[0].message);
     }
     console.log(`Validation check passed. Checking existing Student data.`);
     students.getEmail(req.body.email, (err, results) => {
@@ -90,11 +86,7 @@ router.post('/login', (req, res) => {
     const {error} = validateUser(req.body);
     if (error) {
         console.log('Cancelled - Validation check failed.');
-        var jsonRespond = {
-            result: "",
-            message: error.details[0].message
-        }
-        return res.status(400).json(jsonRespond);
+        return res.status(400).json(error.details[0].message);
     }
     console.log(`Validation check passed. Checking existing Student data.`);
     students.getEmail(req.body.email, (err, results) => {
@@ -128,7 +120,13 @@ router.put('/:id', (req, res) => {
     var datetime = new Date();
     console.log(`\n${datetime}`);
     console.log(`Received request to update Student data - ID: ${req.params.id}`);
-    console.log(`Checking existing Student data.`);
+    console.log(`Proceeding with validation check.`);
+    const {error} = validateUser(req.body);
+    if (error) {
+        console.log('Cancelled - Validation check failed.');
+        return res.status(400).json(error.details[0].message);
+    }
+    console.log(`Validation check passed. Checking existing Student data.`);
     students.getOne(req.params.id, (err, results) => {
         if (err) {
             console.log(`Cancelled - ${err}`);
@@ -181,8 +179,9 @@ router.delete('/:id', (req, res) => {
 
 function validateUser(user) {
     const schema = Joi.object({
-        email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
-        password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+        name: Joi.string().required(),
+        email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'id'] } }),
+        password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).min(8).required()
     });
 
     return schema.validate(user);

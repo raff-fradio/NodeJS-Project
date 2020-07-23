@@ -60,10 +60,10 @@ exports.create = function(email, name, password, next) {
     );
 }
 
-exports.update = function(id, email, name, password, next) {
+exports.update = function(id, name, password, next) {
     db.query(
-        'UPDATE teachers SET email = ?, name = ?, password = ? WHERE id = ?;',
-        [email, name, password, id],
+        'UPDATE teachers SET name = ?, password = ? WHERE id = ?;',
+        [name, password, id],
         (err, results) => {
             next(err, results);
         }

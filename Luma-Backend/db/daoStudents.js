@@ -30,6 +30,26 @@ exports.getCourses = function(student_id, next) {
     );
 }
 
+exports.getEmail = function(email, next) {
+    db.query(
+        'SELECT * FROM students WHERE email = ?',
+        [email],
+        (err, results) => {
+            next(err, results);
+        }
+    )
+}
+
+exports.login = function(email, password, next) {
+    db.query(
+        'SELECT * FROM students WHERE email = ? AND password = ?',
+        [email, password],
+        (err, results) => {
+            next(err, results);
+        }
+    )
+}
+
 exports.create = function(email, name, password, next) {
     db.query(
         'INSERT INTO students (email, name, password) VALUES (?, ?, ?);',
@@ -40,10 +60,10 @@ exports.create = function(email, name, password, next) {
     );
 }
 
-exports.update = function(id, email, name, password, next) {
+exports.update = function(id, name, password, next) {
     db.query(
-        'UPDATE students SET email = ?, name = ?, password = ? WHERE id = ?;',
-        [email, name, password, id],
+        'UPDATE students SET name = ?, password = ? WHERE id = ?;',
+        [name, password, id],
         (err, results) => {
             next(err, results);
         }

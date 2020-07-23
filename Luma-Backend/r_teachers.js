@@ -5,7 +5,7 @@ const router = Express.Router();
 
 router.get('/', (req, res) => {
     var datetime = new Date();
-    console.log(`\n${datetime}`);
+    console.log(`\n-- ${datetime} --`);
     console.log('Received request for Teachers data.');
     teachers.getAll((err, results) => {
         if (err) {
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     var datetime = new Date();
-    console.log(`\n${datetime}`);
+    console.log(`\n-- ${datetime} --`);
     console.log(`Received request for Teacher data - ID: ${req.params.id}`);
     teachers.getOne(req.params.id, (err, results1) => {
         if (err) {
@@ -47,7 +47,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     var datetime = new Date();
-    console.log(`\n${datetime}`);
+    console.log(`\n-- ${datetime} --`);
     console.log(`Received request for creating new Teacher data.`);
     console.log(`Proceeding with validation check.`);
     const {error} = validateUser(req.body);
@@ -82,7 +82,7 @@ router.post('/', (req, res) => {
 
 router.post('/login', (req, res) => {
     var datetime = new Date();
-    console.log(`\n${datetime}`);
+    console.log(`\n-- ${datetime} --`);
     console.log(`Received login request for Teacher.`);
     const {error} = validateUser(req.body);
     if (error) {
@@ -96,7 +96,7 @@ router.post('/login', (req, res) => {
             console.log(`Cancelled - ${err}`);
             return res.status(400).json(err);
         }
-        if (results.length < 0) {
+        if (results.length < 1) {
             console.log('Cancelled - Data not found.');
             return res.status(404).json('Data not found.');
         }
@@ -121,7 +121,7 @@ router.post('/login', (req, res) => {
 
 router.put('/:id', (req, res) => {
     var datetime = new Date();
-    console.log(`\n${datetime}`);
+    console.log(`\n-- ${datetime} --`);
     console.log(`Received request to update Teacher data - ID: ${req.params.id}`);
     console.log(`Proceeding with validation check.`);
     const {error} = validateUser(req.body);
@@ -155,7 +155,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     var datetime = new Date();
-    console.log(`\n${datetime}`);
+    console.log(`\n-- ${datetime} --`);
     console.log(`Received request to delete Teacher data - ID: ${req.params.id}`);
     console.log(`Checking existing Teacher data.`);
     teachers.getOne(req.params.id, (err, results) => {
@@ -176,7 +176,7 @@ router.delete('/:id', (req, res) => {
             }
             req.body.status = "Success";
             res.json(req.body);
-            console.log('Successfully updated Teacher data.');
+            console.log('Successfully deleted Teacher data.');
         });
     });
 });

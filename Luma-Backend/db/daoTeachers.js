@@ -22,7 +22,7 @@ exports.getAll = function(next) {
 
 exports.getCourses = function(teacher_id, next) {
     db.query(
-        'SELECT * FROM courses WHERE teacher_id = ?;',
+        'SELECT id, name, description FROM courses WHERE teacher_id = ?;',
         [teacher_id],
         (err, results) => {
             next(err, results);

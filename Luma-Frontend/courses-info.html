@@ -116,7 +116,7 @@
                 </table>
             </div>
             <div class="text-center" style="margin-top: 50px;">
-                <button class="btn btn-primary" style="margin-right: 10px; border: 0; font-size: 20px;" onclick="updateCourse();">Edit Course</button>
+                <button class="btn btn-primary" style="margin-right: 10px; border: 0; font-size: 20px;" onclick="editCourse();">Edit Course</button>
                 <button class="btn btn-primary" style="margin-left: 10px; border: 0; font-size: 20px; background-color: red;" onclick="deleteCourse();">Delete Course</button>
             </div>
         </div>
@@ -196,6 +196,35 @@
             xhr.send(null);
         }
         $("document").ready(loadCourse());
+        function editCourse() {
+            var params = new URLSearchParams(window.location.search);
+            var id = params.get("id");
+            window.location.assign(`courses-edit.html?id=${id}`);
+        }
+        function deleteCourse() {
+            if (confirm("Are you sure?")) {
+                var params = new URLSearchParams(window.location.search);
+                var id = params.get("id");
+                var url = `http://localhost:3000/courses/${id}`;
+    
+                var xhr = new XMLHttpRequest();
+                xhr.open('DELETE', url, true);
+                xhr.onload = function() {
+                    if (xhr.readyState == 4 && xhr.status == "200") {
+                        var result = JSON.parse(xhr.responseText);
+                        window.alert(result.status);
+                        window.location.assign('courses-list.html');
+                    } else {
+                        window.alert(result);
+                        window.location.assign("courses-list.html");
+                    }
+                }
+                xhr.send(null);
+            }
+            else {
+                window.location.assign('courses-list.html');
+            }
+        }
     </script>
 </body>
 </html>

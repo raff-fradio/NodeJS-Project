@@ -36,7 +36,7 @@ router.get('/:id', (req, res) => {
                 console.log(`Cancelled - ${err}`);
                 return res.status(400).json(err);
             }
-            result.courses = results2;
+            result.students = results2;
             result.status = "Success";
             res.json(result);
             console.log('Sent Course data.');
